@@ -559,7 +559,7 @@ public class RedissonMap<K, V> extends RedissonExpirable implements RMap<K, V> {
         String name = getRawName(key);
         RFuture<Boolean> future = containsKeyOperationAsync(name, key);
         if (hasNoLoader()) {
-            return future;
+            return future.thenCompose(promise);
         }
 
         CompletionStage<Boolean> result = future.thenCompose(res -> {
